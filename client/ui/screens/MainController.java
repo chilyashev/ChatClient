@@ -228,7 +228,7 @@ public class MainController extends AbstractScreen {
                         // Обработване на съобщенията, че някой е дошъл онлайн или офлайн
                         if (line.startsWith("-")) { // Някой е минал офлайн
                             String[] parts = line.split(";"); // съобщението е от вида "-;id", затова го разделяме на части
-                            String whom = parts[0]; // Кой е минал офлайн
+                            String whom = parts[1]; // Кой е минал офлайн
                             // Ако има отворен чат с този човек, пишем, че е излязъл офлайн
                             if (children.containsKey(whom)) { // Проверява дали има контролер за този човек в хеша с чат контролери
                                 children.get(whom).addMessage("SERVER", "Потребителят е офлайн"); // Изпраща съобщението към контролера
@@ -390,7 +390,14 @@ public class MainController extends AbstractScreen {
                 // Прочитане на отговора
                 while ((line = input.readLine()) != null) {
                     System.out.println(line);
-                    //friendsList.getItems().add(line);
+                    if (line.startsWith("-")) { // Някой е минал офлайн
+                        String[] parts = line.split(";"); // съобщението е от вида "-;id", затова го разделяме на части
+                        String whom = parts[0]; // Кой е минал офлайн
+                        // Ако има отворен чат с този човек, пишем, че е излязъл офлайн
+                        if (children.containsKey(whom)) { // Проверява дали има контролер за този човек в хеша с чат контролери
+                            children.get(whom).addMessage("SERVER", "Потребителят е офлайн"); // Изпраща съобщението към контролера
+                        }
+                    }
                 }
                 System.err.println("End.");
             } catch (Exception e) {
