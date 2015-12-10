@@ -24,7 +24,9 @@ public class Main extends Application {
 
         // Showing the main screen
         mainScreen.showScreen("login");
-
+        primaryStage.setOnCloseRequest(event -> {
+            mainScreen.closeScreen();
+        });
         // Displaying the stage
         Group root = new Group();
         root.getChildren().addAll(mainScreen);

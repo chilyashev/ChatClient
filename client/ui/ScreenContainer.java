@@ -4,6 +4,7 @@ import client.ui.ControlledScreen;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -33,6 +34,7 @@ public class ScreenContainer extends StackPane {
      * Keeps references to all the controllers
      */
     private HashMap<String, ControlledScreen> controllers = new HashMap<>();
+    private String activeScreenId;
 
     /**
      * Loads a screen and adds it to the screen map
@@ -54,7 +56,7 @@ public class ScreenContainer extends StackPane {
             addScreen(screenId, loadedScreen, controller);
             return true;
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
             System.out.println(e.getMessage());
             System.exit(1);
             return false;
@@ -81,7 +83,6 @@ public class ScreenContainer extends StackPane {
 
         if (screens.get(screenId) != null) { //screen loaded
             final DoubleProperty opacity = opacityProperty();
-
             /*
                 If there is a screen currently being shown, we fade it out, add the new one, and fade it in.
                 By doing this the StackPane used as a base keeps only one screen at any time, thus enhancing performance.
@@ -100,6 +101,7 @@ public class ScreenContainer extends StackPane {
                                 // tell the controller to do whatever it should do when the screen is starting
                                 controllers.get(screenId).init();
                                 //((Node)screens.get(screenId)).getScene().getRoot()
+                                //((Node)screens.get(screenId)).getScene().getRoot().prefHeight(screens.get(screenId).getLayoutBounds().getWidth());
                                 Timeline fadeIn = new Timeline(
                                         new KeyFrame(Duration.ZERO,
                                                 new KeyValue(opacity, 0.0)),
@@ -121,11 +123,17 @@ public class ScreenContainer extends StackPane {
                                 new KeyValue(opacity, 1.0)));
                 fadeIn.play();
             }
+            activeScreenId = screenId;
             return true;
         } else { // Something went wront
             // TODO: Seriously... the exceptions thing?
             System.err.println("Something went wrong and the screen didn't get loaded\n");
             return false;
         }
+    }
+
+    public void closeScreen() {
+        Platform.exit();
+        controllers.get(activeScreenId).close();
     }
 }

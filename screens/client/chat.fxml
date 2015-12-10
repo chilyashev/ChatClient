@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="463.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="client.ui.screens.ChatController">
+    <children>
+        <VBox layoutX="0.0" layoutY="1.0" prefHeight="431.0" prefWidth="500.0">
+            <ListView fx:id="chatList" prefHeight="430.0" prefWidth="500.0"/>
+            <TextField fx:id="msgField" onAction="#sendAction"/>
+        </VBox>
+    </children>
+</AnchorPane>
